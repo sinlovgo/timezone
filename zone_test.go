@@ -7,8 +7,7 @@ import (
 
 func Test_00_SetZoneByName(t *testing.T) {
 	t.Logf("timezone.GetZoneLocal().String() %v", GetZoneLocal().String())
-	zoneAsiaShanghai := "Asia/Shanghai"
-	err := SetZoneByName(zoneAsiaShanghai)
+	err := SetZoneByName(ZoneAsiaShanghai)
 	if err != nil {
 		t.Errorf("SetZoneByName err %v", err)
 	}
@@ -31,5 +30,12 @@ func Test_02_SetZoneUTC(t *testing.T) {
 	SetZoneUTC()
 	nowZone := GetZoneLocal().String()
 	t.Logf("timezone.GetZoneLocal().String() %v", nowZone)
-	assert.Equal(t, "UTC", GetZoneLocal().String())
+	assert.Equal(t, ZoneUTC, GetZoneLocal().String())
+}
+
+func Test_03_SetZoneLocation(t *testing.T) {
+	t.Logf("timezone.GetZoneLocal().String() %v", GetZoneLocal().String())
+	SetZoneLocation()
+	t.Logf("timezone.GetZoneLocal().String() %v", GetZoneLocal().String())
+	assert.Equal(t, "Local", GetZoneLocal().String())
 }

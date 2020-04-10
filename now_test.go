@@ -28,3 +28,15 @@ func TestMicro(t *testing.T) {
 	t.Logf("micro %v", micro)
 	assert.NotEmpty(t, micro)
 }
+
+func TestTimestampSecond(t *testing.T) {
+	timestampSecond := TimestampSecond()
+	t.Logf("timestampSecond %v", timestampSecond)
+	assert.NotZero(t, timestampSecond)
+}
+
+func TestTimestampUnixNano(t *testing.T) {
+	timestampUnixNano := TimestampUnixNano()
+	t.Logf("timestampUnixNano %v", timestampUnixNano)
+	assert.NotZero(t, timestampUnixNano)
+}

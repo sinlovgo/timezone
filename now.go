@@ -23,3 +23,15 @@ func Second() string {
 func Micro() string {
 	return time.Now().In(zoneLocal).Format(LayoutMicro)
 }
+
+// Unix returns t as a Unix time, the number of seconds
+//	elapsed since January 1, 1970 UTC.
+func TimestampSecond() int64 {
+	return time.Now().Unix()
+}
+
+// UnixNano returns t as a Unix time, the number of nanoseconds
+//	elapsed since January 1, 1970 UTC.
+func TimestampUnixNano() int64 {
+	return time.Now().UnixNano()
+}

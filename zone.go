@@ -22,6 +22,9 @@ const (
 	//	China Standard Time UTC +8
 	//	Cuba Standard Time UTC -4
 	ZoneCST string = "CST"
+
+	// zone location Asia/Shanghai more see https://en.wikipedia.org/wiki/Tz_database
+	ZoneAsiaShanghai string = "Asia/Shanghai"
 )
 
 var zoneLocal = time.Local
@@ -40,6 +43,15 @@ func SetZoneUTC() {
 	lock.Unlock()
 }
 
+//	locationName -> UTC CST Asia/Shanghai of others
+//	hour : for hour set like 8 Eastern Eight
+func SetZoneFix(locationName string, hour int) {
+	offset := 3600 * hour
+	lock.Lock()
+	zoneLocal = time.FixedZone(locationName, offset)
+	lock.Unlock()
+}
+
 //	locationName -> UTC Asia/Shanghai of others
 func SetZoneByName(locationName string) error {
 	location, err := time.LoadLocation(locationName)
@@ -52,11 +64,11 @@ func SetZoneByName(locationName string) error {
 	return nil
 }
 
-//	locationName -> UTC CST Asia/Shanghai of others
-//	hour : for hour set like 8 Eastern Eight
-func SetZoneFix(locationName string, hour int) {
-	offset := 3600 * hour
+// present on all systems, especially non-Unix systems
+//	most of time use SetZoneFix(locationName string, hour int)
+func SetZoneLocation() {
 	lock.Lock()
-	zoneLocal = time.FixedZone(locationName, offset)
+	location, _ := time.LoadLocation("Local")
+	zoneLocal = location
 	lock.Unlock()
 }

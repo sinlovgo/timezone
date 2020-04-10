@@ -12,20 +12,6 @@
 in go mod project
 
 ```bash
-# warning use privte git host must set
-# global set for once
-# add private git host like github.com to evn GOPRIVATE
-$ go env -w GOPRIVATE='github.com'
-# use ssh proxy
-# set ssh-key to use ssh as http
-$ git config --global url."git@github.com:".insteadOf "http://github.com/"
-# or use PRIVATE-TOKEN
-# set PRIVATE-TOKEN as gitlab or gitea
-$ git config --global http.extraheader "PRIVATE-TOKEN: {PRIVATE-TOKEN}"
-# set this rep to download ssh as https use PRIVATE-TOKEN
-$ git config --global url."ssh://github.com/".insteadOf "https://github.com/"
-
-# before above global settings
 # test version info
 $ git ls-remote -q http://github.com/sinlovgo/timezone.git
 
@@ -39,6 +25,117 @@ $ echo "go mod vendor"
 ## usage
 
 ### set timezone
+
+```go
+import "github.com/sinlovgo/timezone"
+func main() {
+	// use set of second time string
+	timezone.Second()
+	// use set of micro time string
+	timezone.Micro()
+	// timestamp unix
+	timezone.TimestampSecond()
+	// timestamp unix nano
+	timezone.TimestampUnixNano()
+	// UTC string
+	timezone.UTCSecond()
+	// UTC string as Micro
+	timezone.UTCMicro()
+	// use Asia/Shanghai
+	timezone.SetZoneByName(timezone.ZoneAsiaShanghai)
+
+	timezone.ZoneUTC
+	timezone.ZoneGMT
+	timezone.ZoneCET
+	timezone.ZoneCEST
+	timezone.ZoneCST
+
+	// this location
+	timezone.SetZoneLocation()
+}
+```
+
+### layout
+
+format for golang
+
+```go
+import "github.com/sinlovgo/timezone"
+	timezone.LayoutSecond
+	timezone.LayoutMicro
+	timezone.LayoutISO8601TimeSecond
+	timezone.LayoutISO8601TimeMicro
+	timezone.LayoutISO8601TimeUTC
+```
+
+### now
+
+```go
+import "github.com/sinlovgo/timezone"
+func main() {
+	// use set of second time string
+	timezone.Second()
+	// use set of micro time string
+	timezone.Micro()
+	// timestamp unix
+	timezone.TimestampSecond()
+	// timestamp unix nano
+	timezone.TimestampUnixNano()
+	// UTC string
+	timezone.UTCSecond()
+	// UTC string as Micro
+	timezone.UTCMicro()
+	// use Asia/Shanghai
+	timezone.SetZoneByName(timezone.ZoneAsiaShanghai)
+	// this location
+	timezone.SetZoneLocation()
+}
+```
+
+### Parse
+
+```go
+import "github.com/sinlovgo/timezone"
+func main() {
+	timestamp, err := timezone.ParseTimestamp("2006-01-02 15:04:05", "2018-07-11 15:07:51")
+	timestampSecond, err := timestamp.ParseTimestampSecond("2018-07-11 15:07:51")
+}
+```
+
+### Compare
+
+```go
+import "github.com/sinlovgo/timezone"
+func main() {
+	timeFrom := "2018-07-11 15:07:51"
+	timeTo := "2018-07-12 15:07:51"
+	compareLocationEQ, err := timestamp.CompareEQ(timeFrom, timeTo, "2006-01-02 15:04:05")
+	timeFrom := "2018-07-11 15:07:51"
+	timeTo := "2018-07-12 15:07:51"
+	compareLocation, err := timestamp.CompareGT(timeFrom, timeTo, timestamp.LayoutSecond)
+	timeFrom := "2018-07-11 15:07:51"
+	timeTo := "2018-07-12 15:07:51"
+	compare, err := timestamp.CompareSecondLT(timeFrom, timeTo)
+}
+```
+
+### Calc
+
+```go
+import "github.com/sinlovgo/timezone"
+func main() {
+	calcDurationSecond := time.Duration(-30) * time.Minute
+	calcDuration := timestamp.CalcDuration(calcDurationSecond, timestamp.LayoutMicro)
+
+	calcDateSecond := timestamp.CalcDateSecond(2, 3, 10)
+	calcDateMicro := timestamp.CalcDateMicro(2, 2, 2)
+
+	calcDay := timestamp.CalcDay(10, LayoutSecond)
+	calcDaySecond := timestamp.CalcDaySecond(1)
+	calcMonthSecond := timestamp.CalcMonthSecond(-1)
+	calcYearSecond := timestamp.CalcYearSecond(-1)
+}
+```
 
 ## dev
 
