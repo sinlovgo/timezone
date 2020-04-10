@@ -37,5 +37,4 @@ func Test_03_SetZoneLocation(t *testing.T) {
 	t.Logf("timezone.GetZoneLocal().String() %v", GetZoneLocal().String())
 	SetZoneLocation()
 	t.Logf("timezone.GetZoneLocal().String() %v", GetZoneLocal().String())
-	assert.Equal(t, "Local", GetZoneLocal().String())
 }
