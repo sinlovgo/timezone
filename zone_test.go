@@ -16,6 +16,24 @@ func Test_00_SetZoneByName(t *testing.T) {
 	err = SetZoneByName("error")
 	t.Logf("must error: %v", err)
 	assert.NotEmpty(t, err)
+
+	err = SetZoneByName(ZoneGMT)
+	if err != nil {
+		t.Errorf("SetZoneByName err %v", err)
+	}
+	assert.Equal(t, ZoneGMT, GetZoneLocal().String())
+
+	err = SetZoneByName(ZoneCET)
+	if err != nil {
+		t.Errorf("SetZoneByName err %v", err)
+	}
+	assert.Equal(t, ZoneCET, GetZoneLocal().String())
+
+	err = SetZoneByName(ZoneCEST)
+	if err == nil {
+		t.Logf("SetZoneByName time.ZoneCEST must: err %v", err)
+	}
+	assert.NotEmpty(t, err)
 }
 
 func Test_01_SetZoneFix(t *testing.T) {

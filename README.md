@@ -47,11 +47,12 @@ func main() {
 	timezone.ZoneUTC
 	timezone.ZoneGMT
 	timezone.ZoneCET
-	timezone.ZoneCEST
 	timezone.ZoneCST
 
 	// this location
 	timezone.SetZoneLocation()
+
+	timezone.ZoneCEST
 }
 ```
 
@@ -99,6 +100,18 @@ import "github.com/sinlovgo/timezone"
 func main() {
 	timestamp, err := timezone.ParseTimestamp("2006-01-02 15:04:05", "2018-07-11 15:07:51")
 	timestampSecond, err := timestamp.ParseTimestampSecond("2018-07-11 15:07:51")
+}
+```
+
+### timeparse
+
+```go
+import "github.com/sinlovgo/timezone/timeparse"
+func main() {
+	testTime := "2020-02-25T16:52:18Z"
+	parseLocation, err := Location(timezone.LayoutISO8601TimeSecond, timezone.LayoutISO8601TimeMicro,
+		testTime,
+		timezone.ZoneUTC, timezone.ZoneAsiaShanghai)
 }
 ```
 

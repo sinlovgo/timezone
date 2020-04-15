@@ -14,6 +14,7 @@ const (
 	//	Winter time is UTC +1, and summer European summer time is UTC +2
 	ZoneCET string = "CET"
 	// Central European Summer Time.
+	// warning do not use this in timezone.SetZoneByName
 	//	use as Most European countries and some North African countries.
 	//	Winter time is UTC +1, and summer European summer time is UTC +2
 	ZoneCEST string = "CEST"

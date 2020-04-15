@@ -1,131 +1,134 @@
 package timeparse
 
 import (
+	"github.com/sinlovgo/timezone"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestParseLocation(t *testing.T) {
+func TestLocation(t *testing.T) {
 	testTime := "2020-02-25T16:52:18Z"
-	parseLocation, err := ParseLocation("2006-01-02T15:04:05Z", "2006-01-02 15:04:05", testTime, "UTC", "Asia/Shanghai")
+	parseLocation, err := Location(timezone.LayoutISO8601TimeSecond, timezone.LayoutISO8601TimeMicro,
+		testTime,
+		timezone.ZoneUTC, timezone.ZoneAsiaShanghai)
 	if err != nil {
-		t.Errorf("ParseLocation err: %v", err)
+		t.Errorf("Location err: %v", err)
 	}
 	t.Logf("parseLocation -> %v", parseLocation)
 	assert.NotEmpty(t, parseLocation)
 }
 
-func TestParseLocationISO8601TimeSecond(t *testing.T) {
+func TestLocationISO8601TimeSecond(t *testing.T) {
 	testTime := "2020-02-25T16:52:18Z"
-	locationISO8601TimeSecond, err := ParseLocationISO8601TimeSecond(testTime, "UTC", "Asia/Shanghai")
+	locationISO8601TimeSecond, err := LocationISO8601TimeSecond(testTime, "UTC", "Asia/Shanghai")
 	if err != nil {
-		t.Errorf("ParseLocationISO8601TimeSecond err: %v", err)
+		t.Errorf("LocationISO8601TimeSecond err: %v", err)
 	}
-	t.Logf("ParseLocationISO8601TimeSecond -> %v", locationISO8601TimeSecond)
+	t.Logf("LocationISO8601TimeSecond -> %v", locationISO8601TimeSecond)
 	assert.NotEmpty(t, locationISO8601TimeSecond)
 }
 
-func TestParseLocationISO8601TimeSecondUTC(t *testing.T) {
+func TestLocationISO8601TimeSecondUTC(t *testing.T) {
 	testTime := "2020-02-25T16:52:18Z"
-	locationISO8601TimeSecondUTC, err := ParseLocationISO8601TimeSecondUTC(testTime)
+	locationISO8601TimeSecondUTC, err := LocationISO8601TimeSecondUTC(testTime)
 	if err != nil {
-		t.Errorf("ParseLocationISO8601TimeSecondUTC err: %v", err)
+		t.Errorf("LocationISO8601TimeSecondUTC err: %v", err)
 	}
-	t.Logf("ParseLocationISO8601TimeSecondUTC -> %v", locationISO8601TimeSecondUTC)
+	t.Logf("LocationISO8601TimeSecondUTC -> %v", locationISO8601TimeSecondUTC)
 	assert.NotEmpty(t, locationISO8601TimeSecondUTC)
 }
 
-func TestParseLocationSecond(t *testing.T) {
-	parseLocationSecond, err := ParseLocationSecond("2020-02-26 10:08:58", "UTC", "Asia/Shanghai")
+func TestLocationSecond(t *testing.T) {
+	parseLocationSecond, err := LocationSecond("2020-02-26 10:08:58", "UTC", "Asia/Shanghai")
 	if err != nil {
-		t.Errorf("ParseLocationSecond err: %v", err)
+		t.Errorf("LocationSecond err: %v", err)
 	}
 	t.Logf("parseLocationSecond -> %v", parseLocationSecond)
 	assert.NotEmpty(t, parseLocationSecond)
 
 	errorTimeString := "2020:02#26 10:08:58"
-	locationSecondErr, err := ParseLocationSecond(errorTimeString, "UTC", "Asia/Shanghai")
+	locationSecondErr, err := LocationSecond(errorTimeString, "UTC", "Asia/Shanghai")
 	if err == nil {
-		t.Errorf("ParseLocationSecond not return error")
+		t.Errorf("LocationSecond not return error")
 	}
 	assert.Empty(t, locationSecondErr)
 }
 
-func TestParseLocationMicro(t *testing.T) {
-	parseLocationMicro, err := ParseLocationMicro("2020-02-26 10:08:58", "UTC", "Asia/Shanghai")
+func TestLocationMicro(t *testing.T) {
+	parseLocationMicro, err := LocationMicro("2018-01-02 15:04:05", "UTC", "Asia/Shanghai")
 	if err != nil {
-		t.Errorf("ParseLocationMicro err: %v", parseLocationMicro)
+		t.Errorf("LocationMicro err: %v", parseLocationMicro)
 	}
 	t.Logf("parseLocationMicro -> %v", parseLocationMicro)
 	assert.NotEmpty(t, parseLocationMicro)
 
 	errorTimeString := "2020:02#26 10:08:58"
-	locationMicroErr, err := ParseLocationMicro(errorTimeString, "UTC", "Asia/Shanghai")
+	locationMicroErr, err := LocationMicro(errorTimeString, "UTC", "Asia/Shanghai")
 	if err == nil {
-		t.Errorf("ParseLocationMicro not return error")
+		t.Errorf("LocationMicro not return error")
 	}
 	assert.Empty(t, locationMicroErr)
 }
 
-func TestParseLocationFix(t *testing.T) {
-	testTime := "2020-02-25T15:52:18Z"
-	parseLocation, err := ParseLocationFix("2006-01-02T15:04:05Z", "2006-01-02 15:04:05", testTime, "UTC", 0, "Asia/Shanghai", 8)
+func TestLocationFix(t *testing.T) {
+	testTime := "2020-02-25T15:52:18Z00:00"
+	parseLocation, err := LocationFix(timezone.LayoutISO8601TimeUTC, timezone.LayoutSecond, testTime, timezone.ZoneUTC, 0, timezone.ZoneAsiaShanghai, 8)
 	if err != nil {
-		t.Errorf("ParseLocationFix err: %v", err)
+		t.Errorf("LocationFix err: %v", err)
 	}
-	t.Logf("ParseLocationFix -> %v", parseLocation)
+	t.Logf("LocationFix -> %v", parseLocation)
 	assert.Equal(t, "2020-02-25 23:52:18", parseLocation)
 }
 
-func TestParseLocationFixISO8601TimeSecond(t *testing.T) {
+func TestLocationFixISO8601TimeSecond(t *testing.T) {
 	testTime := "2020-02-25T16:52:18Z"
-	locationISO8601TimeSecond, err := ParseLocationFixISO8601TimeSecond(testTime, "UTC", 0, "Asia/Shanghai", 8)
+	locationISO8601TimeSecond, err := LocationFixISO8601TimeSecond(testTime, "UTC", 0, "Asia/Shanghai", 8)
 	if err != nil {
-		t.Errorf("ParseLocationFixISO8601TimeSecond err: %v", err)
+		t.Errorf("LocationFixISO8601TimeSecond err: %v", err)
 	}
-	t.Logf("ParseLocationFixISO8601TimeSecond -> %v", locationISO8601TimeSecond)
+	t.Logf("LocationFixISO8601TimeSecond -> %v", locationISO8601TimeSecond)
 	assert.NotEmpty(t, locationISO8601TimeSecond)
 }
 
-func TestParseLocationFixISO8601TimeSecondUTC(t *testing.T) {
+func TestLocationFixISO8601TimeSecondUTC(t *testing.T) {
 	testTime := "2020-02-25T16:52:18Z"
-	locationISO8601TimeSecondUTC, err := ParseLocationFixISO8601TimeSecondUTC(testTime)
+	locationISO8601TimeSecondUTC, err := LocationFixISO8601TimeSecondUTC(testTime)
 	if err != nil {
-		t.Errorf("ParseLocationFixISO8601TimeSecondUTC err: %v", err)
+		t.Errorf("LocationFixISO8601TimeSecondUTC err: %v", err)
 	}
-	t.Logf("ParseLocationFixISO8601TimeSecondUTC -> %v", locationISO8601TimeSecondUTC)
+	t.Logf("LocationFixISO8601TimeSecondUTC -> %v", locationISO8601TimeSecondUTC)
 	assert.NotEmpty(t, locationISO8601TimeSecondUTC)
 }
 
-func TestParseLocationFixSecond(t *testing.T) {
-	parseLocationSecond, err := ParseLocationFixSecond("2020-02-26 10:08:58", "UTC", 0, "Asia/Shanghai", 8)
+func TestLocationFixSecond(t *testing.T) {
+	parseLocationSecond, err := LocationFixSecond("2020-02-26 10:08:58", "UTC", 0, "Asia/Shanghai", 8)
 	if err != nil {
-		t.Errorf("ParseLocationFixSecond err: %v", err)
+		t.Errorf("LocationFixSecond err: %v", err)
 	}
-	t.Logf("ParseLocationFixSecond -> %v", parseLocationSecond)
+	t.Logf("LocationFixSecond -> %v", parseLocationSecond)
 	assert.NotEmpty(t, parseLocationSecond)
 
 	errorTimeString := "2020:02#26 10:08:58"
-	locationSecondErr, err := ParseLocationFixSecond(errorTimeString, "UTC", 0, "Asia/Shanghai", 8)
+	locationSecondErr, err := LocationFixSecond(errorTimeString, "UTC", 0, "Asia/Shanghai", 8)
 	if err == nil {
-		t.Errorf("ParseLocationFixSecond not return error")
+		t.Errorf("LocationFixSecond not return error")
 	}
 	assert.Empty(t, locationSecondErr)
 }
 
-func TestParseLocationFixMicro(t *testing.T) {
-	parseLocationMicro, err := ParseLocationFixMicro("2020-02-26 10:08:58", "UTC", 0, "Asia/Shanghai", 8)
+func TestLocationFixMicro(t *testing.T) {
+	parseLocationMicro, err := LocationFixMicro("2020-02-26 10:08:58", "UTC", 0, "Asia/Shanghai", 8)
 	if err != nil {
-		t.Errorf("ParseLocationFixMicro err: %v", parseLocationMicro)
+		t.Errorf("LocationFixMicro err: %v", err)
 	}
-	t.Logf("ParseLocationFixMicro -> %v", parseLocationMicro)
+	t.Logf("LocationFixMicro -> %v", parseLocationMicro)
 	assert.NotEmpty(t, parseLocationMicro)
 
 	errorTimeString := "2020:02#26 10:08:58"
-	locationMicroErr, err := ParseLocationFixMicro(errorTimeString, "UTC", 0, "Asia/Shanghai", 8)
+	locationMicroErr, err := LocationFixMicro(errorTimeString, "UTC", 0, "Asia/Shanghai", 8)
 	if err == nil {
-		t.Errorf("ParseLocationFixMicro not return error")
+		t.Errorf("LocationFixMicro not return error")
 	}
-	t.Logf("ParseLocationFixMicro err -> %v", locationMicroErr)
+	t.Logf("locationMicroErr err -> %v , result %v", err, locationMicroErr)
 	assert.NotEmpty(t, err)
 }
