@@ -150,6 +150,17 @@ func main() {
 }
 ```
 
+### start time
+
+```go
+import "github.com/sinlovgo/timezone"
+func main() {
+	yesterdaySecond := StartDaySecond(-1)
+	lastMonthMicro := StartMonthMicro(-1)
+	lastYearSecond := StartYearSecond(-1)
+}
+```
+
 ## dev
 
 ```bash
