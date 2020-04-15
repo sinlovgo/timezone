@@ -18,7 +18,7 @@ $ git ls-remote -q http://github.com/sinlovgo/timezone.git
 # test depends see full version
 $ go list -v -m -versions github.com/sinlovgo/timezone
 # or use last version add go.mod by script
-$ echo "go mod edit -require=$(go list -m -versions github.com/sinlovgo/timezone.git | awk '{print $1 "@" $NF}')"
+$ echo "go mod edit -require=$(go list -m -versions github.com/sinlovgo/timezone | awk '{print $1 "@" $NF}')"
 $ echo "go mod vendor"
 ```
 
