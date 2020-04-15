@@ -106,21 +106,21 @@ func CalcMonthMicro(month int) string {
 	return CalcDate(0, month, 0, LayoutMicro)
 }
 
-// get location time month
+// get location time year
 //	year -> year count
 //	layout -> 2006-01-02 15:04:05
 func CalcYear(year int, layout string) string {
 	return CalcDate(year, 0, 0, layout)
 }
 
-// get location time month
+// get location time year
 // format layout as "2006-01-02 15:04:05"
 //	year -> year count
 func CalcYearSecond(year int) string {
 	return CalcDate(year, 0, 0, LayoutSecond)
 }
 
-// get location time month
+// get location time year
 // format layout as "2006-01-02 15:04:05.999999"
 //	year -> year count
 func CalcYearMicro(year int) string {
